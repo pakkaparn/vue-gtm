@@ -1,4 +1,4 @@
-import { loadScript } from './utils'
+import { loadScript, hasScript } from './utils'
 import pluginConfig from './config'
 import GtmPlugin from './GtmPlugin'
 
@@ -25,7 +25,7 @@ const install = function (Vue, initConf = {}) {
   Vue.prototype.$gtm = Vue.gtm = new GtmPlugin()
 
   // Load GTM script when enabled
-  if (pluginConfig.enabled) {
+  if (pluginConfig.enabled && !hasScript()) {
     if (Array.isArray(initConf.id)) {
       initConf.id.forEach((id) => {
         loadScript(id, initConf.queryParams);
