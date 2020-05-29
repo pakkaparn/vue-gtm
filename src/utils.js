@@ -20,21 +20,24 @@ export const loadScript = function (id) {
         script = doc.createElement('script'),
         dl     = 'dataLayer'
 
-  win[dl] = win[dl] || []
+  if (doc.getElementById(`script-gtm-${id}`) === null) {
+    win[dl] = win[dl] || []
 
-  win[dl].push({
-    event      :'gtm.js',
-    'gtm.start': new Date().getTime(),
-  })
+    win[dl].push({
+      event      :'gtm.js',
+      'gtm.start': new Date().getTime(),
+    })
 
-  if (!id) {
-    return
+    if (!id) {
+      return
+    }
+
+    script.id = `script-gtm-${id}`
+    script.async = true;
+    script.src   = `https://www.googletagmanager.com/gtm.js?id=${id}`
+
+    doc.body.appendChild(script)
   }
-
-  script.async = true;
-  script.src   = `https://www.googletagmanager.com/gtm.js?id=${id}`
-
-  doc.body.appendChild(script)
 }
 
 /**
